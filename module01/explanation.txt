@@ -1,0 +1,16 @@
+Python Programming
+- structured programming
+  selection, repetition, flow control, ...
+- procedural programming
+  functions
+- functional programming
+  HoF: map, filter, reduce, flatMap, ...
+  Pure Function: lambda expression, method reference
+  Pipeline
+  Generator Function
+- object-oriented programming
+  class, object, inheritance, polymorphism,...
+- Async functions and Reactive Programming
+
+History
+   https://www.youtube.com/watch?v=GfH4QL4VqJ0
