@@ -9,3 +9,6 @@ print(jack[-6])
 #error: print(jack[-7]) # IndexError: tuple index out of range
 # [index]: -len(jack) <= index < len(jack)
 
+print(jack[0:3])
+print(jack[0:5:2])
+print(jack[1:6:2])

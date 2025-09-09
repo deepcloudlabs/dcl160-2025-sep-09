@@ -1,0 +1,10 @@
+numbers = [4, 8, 15, 16, 23, 42]
+numbers.append(8)
+numbers.append(16)
+numbers.append(8)
+numbers.append(4)
+numbers.append(8)
+print(numbers)
+print(len(numbers))
+numbers.sort()
+print(numbers)

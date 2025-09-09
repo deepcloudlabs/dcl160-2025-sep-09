@@ -1,0 +1,5 @@
+numbers = list(range(0, 11))
+print(numbers)
+numbers.pop(0)
+numbers.pop(-1)
+print(numbers)
