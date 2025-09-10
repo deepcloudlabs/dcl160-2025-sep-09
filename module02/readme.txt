@@ -16,3 +16,37 @@ II. Associative Collections: dictionary
      salaries = {"jack": 40_000, "kim": 80_000, "jane": 150_000, "john": 160_000, "jim": 230_000, "sun": 150_000}
      area_codes = { "ankara": 312, "istanbul": {"anadolu": 216, "avrupa":212}, "izmir": 232}
      area_codes["istanbul"]["avrupa"] # 212
+
+I. Python Interpreters:
+PyPy
+IronPython
+Cython
+Jython
+...
+
+II. set() -> red-black tree, balanced tree
+             in
+             add()
+    list() -> dynamic array
+              [index] -> O(1)
+              append() -> O(1)
+              insert() -> O(n)
+              pop() -> O(1)
+              remove() -> O(n)
+              sort() -> O(n log n)
+              reverse() -> O(n)
+              len() -> O(1)
+              in -> O(n)
+    dict() -> hash table
+              ["key"] = "value" -> O(1)
+              key in dict() -> O(1)
+    deque() -> double-ended queue
+              append() -> O(1)
+              appendleft() -> O(1)
+              pop() -> O(1)
+              popleft() -> O(1)
+              extend() -> O(n)
+              extendleft() -> O(n)
+              insert() -> O(n)
+              remove() -> O(n)
+              reverse() -> O(n)
