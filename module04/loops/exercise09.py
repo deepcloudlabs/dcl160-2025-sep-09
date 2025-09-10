@@ -7,4 +7,4 @@ employees = [
     ("sun kwon", "IT", 170000, 1984,False),
     ("hugo reyes", "IT", 120000, 1992,True)
 ]
-part_time_employees = []
+part_time_employees = [employee for employee in employees if ]
