@@ -18,3 +18,4 @@ for building_no in range(100, 1000): # 100 ~ 999
     if left_sum == right_sum:
         print(f"Mathematician lives at {building_no}, and there are {right_building_no-1} buildings in the street!")
         break
+# Mathematician lives at 204, and there are 288 buildings in the street!
