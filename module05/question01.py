@@ -54,7 +54,10 @@ def move_to_next_level(state: dict) -> bool:
     state["max_moves"] += 2
     return True
 
-
+"""
+  12:00
+  create_move(584,549) -> (587,"-1+1")
+"""
 def create_move(guess: int, secret: int) -> tuple[int, str]:
     pass
 
