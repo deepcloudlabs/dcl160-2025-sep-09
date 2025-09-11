@@ -1,5 +1,6 @@
 import random
 
+#region create secret
 def create_random_digit(min:int, max:int) -> int:
     return random.randint(min, max)
 
@@ -14,6 +15,7 @@ def create_secret_number(level : int) -> int:
     for digit in digits:
         secret = 10 * secret + digit
     return secret
+#endregion
 
 print(create_secret_number(3))
 print(create_secret_number(3))
