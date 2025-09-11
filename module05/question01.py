@@ -11,15 +11,18 @@ player: 123 -> No match
 secret: 3615
         1234 -> -2
 """
-#region create secret
+# region create secret
 import random
-def create_random_digit(min:int, max:int) -> int:
+
+
+def create_random_digit(min: int, max: int) -> int:
     return random.randint(min, max)
 
-def create_secret_number(level : int) -> int:
-    digits = [create_random_digit(1,9)]
+
+def create_secret_number(level: int) -> int:
+    digits = [create_random_digit(1, 9)]
     while (len(digits) < level):
-        digit = create_random_digit(0,9)
+        digit = create_random_digit(0, 9)
         if digit not in digits:
             digits.append(digit)
     # [5, 4, 9] -> 549
@@ -27,31 +30,50 @@ def create_secret_number(level : int) -> int:
     for digit in digits:
         secret = 10 * secret + digit
     return secret
-#endregion
 
-#region game state
-level = 3
-secret = create_secret_number(level)
-moves = []
-#endregion
 
-def move_to_next_level():
-    #TODO: implement the logic
+# endregion
+
+# region game state
+game_state = {
+    "level": 3,
+    "secret": create_secret_number(3),
+    "moves": [],
+    "max_moves": 10,
+}
+
+
+# endregion
+
+def move_to_next_level(state: dict) -> bool:
+    state["level"] += 1
+    if state["level"] > 10:
+        return False
+    state["secret"] = create_secret_number(state["level"])
+    state["moves"] = []
+    state["max_moves"] += 2
+    return True
+
+
+def create_move(guess: int, secret: int) -> tuple[int, str]:
     pass
 
-def game_loop():
-    global level, secret, moves
+
+def game_loop(state=game_state):
     while True:
         guess = int(input("Enter your guess: "))
-        if guess == secret:
-            level += 1
-            if level > 10:
+        if guess == state["secret"]:
+            if not move_to_next_level(state):
                 print("You win!")
                 break
-            print(f"Level up! Current level: {level}")
-            move_to_next_level()
+            print(f"Level up! Current level: {state["level"]}")
         else:
-            pass
-            #TODO: implement the logic
+            state["moves"].append(create_move(guess, state["secret"]))
+            if len(state["moves"]) > state["max_moves"]:
+                print("You lose!")
+                break
+            for move in state["moves"]:
+                print(move)
+
 
 game_loop()
