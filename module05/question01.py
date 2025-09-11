@@ -11,7 +11,6 @@ player: 123 -> No match
 secret: 3615
         1234 -> -2
 """
-
 #region create secret
 import random
 def create_random_digit(min:int, max:int) -> int:
@@ -30,3 +29,29 @@ def create_secret_number(level : int) -> int:
     return secret
 #endregion
 
+#region game state
+level = 3
+secret = create_secret_number(level)
+moves = []
+#endregion
+
+def move_to_next_level():
+    #TODO: implement the logic
+    pass
+
+def game_loop():
+    global level, secret, moves
+    while True:
+        guess = int(input("Enter your guess: "))
+        if guess == secret:
+            level += 1
+            if level > 10:
+                print("You win!")
+                break
+            print(f"Level up! Current level: {level}")
+            move_to_next_level()
+        else:
+            pass
+            #TODO: implement the logic
+
+game_loop()
