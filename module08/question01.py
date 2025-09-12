@@ -138,20 +138,6 @@ class SavingsAccount(Account):
     def __str__(self) -> str:
         return f"SavingsAccount [iban: {self.iban}, balance:{self.balance}, status: {self.status}]"
 
-
-# 15:05
-"""
-Customer --> Account
-fullname : str
-identity : str
-accounts : ?
-getAccount(iban: str) -> Account
-addAccount(account : Account) -> bool
-closeAccount(account) -> bool
-getTotalBalance() -> float
-"""
-
-
 class Customer:
     def __init__(self, full_name: str, identity: str):
         self.__full_name = full_name
@@ -171,23 +157,23 @@ class Customer:
         for _ in self.__accounts.values():
             yield _
 
-    def addAccount(self, account: Account) -> Account:
+    def add_account(self, account: Account) -> Account:
         if account.iban in self.__accounts:
             raise ValueError(f"Account {account.iban} already exists")
         self.__accounts[account.iban] = account
         return account
 
-    def closeAccount(self, account: Account) -> Account:
+    def close_account(self, account: Account) -> Account:
         if account.iban not in self.__accounts:
             raise ValueError(f"Account {account.iban} does not exist")
         account.status = AccountStatus.CLOSED
         del self.__accounts[account.iban]
         return account
 
-    def getTotalBalance(self) -> float:
+    def get_total_balance(self) -> float:
         return sum(map(lambda account: account.balance, self.__accounts.values()))
 
-    def getAccount(self, iban: str) -> Account:
+    def get_account(self, iban: str) -> Account:
         if iban not in self.__accounts:
             raise ValueError(f"Account {iban} does not exist")
         return self.__accounts[iban]
@@ -195,7 +181,7 @@ class Customer:
     def __str__(self) -> str:
         return f"Customer[fullname: {self.full_name}, identity: {self.identity}]"
 
-    def printAccounts(self):
+    def print_accounts(self):
         for _ in self.accounts:
             print(_)
 
@@ -219,48 +205,48 @@ class Bank:
     def customers(self) -> list[Customer]:
         return list(self.__customers.values())
 
-    def getCustomer(self, identity: str) -> Customer:
+    def get_customer(self, identity: str) -> Customer:
         return self.__customers[identity]
 
-    def addCustomer(self, customer: Customer) -> bool:
+    def add_customer(self, customer: Customer) -> bool:
         if customer.identity in self.__customers:
             return False
         self.__customers[customer.identity] = customer
         return True
 
-    def releaseCustomer(self, identity: str) -> bool:
+    def release_customer(self, identity: str) -> bool:
         return self.__customers.pop(identity, None) is  not None
 
-    def getAccount(self, iban: str) -> Account:
+    def get_account(self, iban: str) -> Account:
         return self.__customers[iban]
 
-    def getTotalBalance(self) -> float:  # functional programming
-        return sum(map(lambda customer: customer.getTotalBalance(), self.customers))
+    def get_total_balance(self) -> float:  # functional programming
+        return sum(map(lambda customer: customer.get_total_balance(), self.customers))
 
 
 jack = Customer("jack bauer", "1")
-jack.addAccount(Account("TR1", 100_000, AccountStatus.ACTIVE))
-jack.addAccount(CheckingAccount("TR2", 200_000, AccountStatus.ACTIVE, 10_000))
-jack.addAccount(SavingsAccount("TR3", 300_000, AccountStatus.ACTIVE))
+jack.add_account(Account("TR1", 100_000, AccountStatus.ACTIVE))
+jack.add_account(CheckingAccount("TR2", 200_000, AccountStatus.ACTIVE, 10_000))
+jack.add_account(SavingsAccount("TR3", 300_000, AccountStatus.ACTIVE))
 print(jack)
-jack.printAccounts()
-print(jack.getTotalBalance())  # 600000
-jack.closeAccount(jack.getAccount("TR2"))
-jack.printAccounts()
-print(jack.getTotalBalance())  # 400000
+jack.print_accounts()
+print(jack.get_total_balance())  # 600000
+jack.close_account(jack.get_account("TR2"))
+jack.print_accounts()
+print(jack.get_total_balance())  # 400000
 
 kate = Customer("kate austen", "2")
-kate.addAccount(Account("TR4", 400_000, AccountStatus.ACTIVE))
-kate.addAccount(CheckingAccount("TR5", 500_000, AccountStatus.ACTIVE, 10_000))
-kate.addAccount(SavingsAccount("TR6", 600_000, AccountStatus.ACTIVE))
+kate.add_account(Account("TR4", 400_000, AccountStatus.ACTIVE))
+kate.add_account(CheckingAccount("TR5", 500_000, AccountStatus.ACTIVE, 10_000))
+kate.add_account(SavingsAccount("TR6", 600_000, AccountStatus.ACTIVE))
 
-garanti = Bank("1", "Garanti")
-garanti.addCustomer(jack)
-garanti.addCustomer(kate)
-for customer in garanti.customers:
+garanti_bankasi = Bank("1", "Garanti")
+garanti_bankasi.add_customer(jack)
+garanti_bankasi.add_customer(kate)
+for customer in garanti_bankasi.customers:
     print(customer)
-print(garanti.getTotalBalance())
-garanti.releaseCustomer("1")
-for customer in garanti.customers:
+print(garanti_bankasi.get_total_balance())
+garanti_bankasi.release_customer("1")
+for customer in garanti_bankasi.customers:
     print(customer)
-print(garanti.getTotalBalance())
+print(garanti_bankasi.get_total_balance())
