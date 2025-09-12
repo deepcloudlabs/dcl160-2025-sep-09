@@ -229,10 +229,7 @@ class Bank:
         return True
 
     def releaseCustomer(self, identity: str) -> bool:
-        if identity not in self.__customers:
-            return False
-        del self.__customers[identity]
-        return True
+        return self.__customers.pop(identity, None) is  not None
 
     def getAccount(self, iban: str) -> Account:
         return self.__customers[iban]
