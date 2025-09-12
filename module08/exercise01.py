@@ -72,7 +72,7 @@ class Account(object):
     def __str__(self) -> str:
         return f"Account [iban: {self.iban}, balance:{self.balance}, status: {self.status}]"
 
-    def __eq__(self, other): # operator overloading
+    def __eq__(self, other):  # operator overloading
         return self.__iban == other.iban
 
     def __add__(self, other):
@@ -86,6 +86,55 @@ class Account(object):
     def __lt__(self, other):
         return self.__balance < other.balance
 
+
+"""
+CheckingAccount: Sub-class, Derived Class
+Account        : Super-class, Based Class
+"""
+
+
+class CheckingAccount(Account):
+    def __init__(self, iban: str, balance: float = 0.0, status: AccountStatus = AccountStatus.ACTIVE,
+                 overdraft_amount: float = 1_000):
+        super().__init__(iban, balance, status)
+        self.__overdraft_amount = overdraft_amount
+
+    @property
+    def overdraft_amount(self) -> float:
+        return self.__overdraft_amount
+
+    @overdraft_amount.setter
+    def overdraft_amount(self, new_amount: float):
+        self.__overdraft_amount = new_amount
+
+    def withdraw(self, amount: float) -> float:
+        if amount <= 0.0:
+            raise ValueError("amount must be positive")
+        if self.status != AccountStatus.ACTIVE:
+            raise ValueError("status must be ACTIVE")
+        if self.balance + self.overdraft_amount < amount:
+            raise ValueError("amount must be greater than balance")
+        self._Account__balance -= amount
+        return self.balance
+
+    def __str__(self) -> str:
+        return f"CheckingAccount [iban: {self.iban}, balance:{self.balance}, status: {self.status}, overdraft_amount:{self.overdraft_amount}]"
+
+
+class SavingsAccount(Account):
+    def __init__(self, iban: str, balance: float = 0.0, status: AccountStatus = AccountStatus.ACTIVE):
+        super().__init__(iban, balance, status)
+
+    def deposit(self, amount: float) -> float:
+        return self.balance
+
+    def withdraw(self, amount: float) -> float:
+        return self.balance
+
+    def __str__(self) -> str:
+        return f"SavingsAccount [iban: {self.iban}, balance:{self.balance}, status: {self.status}]"
+
+
 acc1 = Account(iban="TR1", balance=10_000_000.0, status=AccountStatus.ACTIVE)
 acc2 = Account(iban="TR1", balance=20_000_000.0, status=AccountStatus.ACTIVE)
 print(str(acc1))
@@ -93,9 +142,17 @@ print(acc1.__str__())
 print(acc1.__eq__(acc2))
 print(acc1 == acc2)
 acc3 = acc1 + acc2
-print(acc1 < acc2) # True
-print(acc1 > acc2) # False
+print(acc1 < acc2)  # True
+print(acc1 > acc2)  # False
+acc4 = CheckingAccount("TR4", 100_000, AccountStatus.ACTIVE, 5_000.0)
+acc5 = SavingsAccount("TR5", 5_000_000, AccountStatus.ACTIVE)
+
+print(acc4)
+print(acc5)
+print(acc5.deposit(1_000_000))
+print(acc5.withdraw(1_000_000))
 try:
+    print(acc4.withdraw(105_000))
     print(acc1.withdraw(3_000_000))  # 7_000_000
     # print(acc1.withdraw(9_000_000)) # raised an exception
     # acc1.__balance -= 9_000_000
