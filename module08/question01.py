@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import Generator
 
 
 class AccountStatus(Enum):
@@ -138,6 +139,7 @@ class SavingsAccount(Account):
         return f"SavingsAccount [iban: {self.iban}, balance:{self.balance}, status: {self.status}]"
 
 
+# 15:05
 """
 Customer --> Account
 fullname : str
@@ -151,7 +153,7 @@ getTotalBalance() -> float
 
 
 class Customer:
-    def __init__(self, full_name: str, identity: str, accounts: dict[str, Account]):
+    def __init__(self, full_name: str, identity: str):
         self.__full_name = full_name
         self.__identity = identity
         self.__accounts = {}
@@ -165,22 +167,43 @@ class Customer:
         return self.__identity
 
     @property
-    def accounts(self) -> list[Account]:
-        return list(self.__accounts.values())
+    def accounts(self) -> Generator[Account]:
+        for _ in self.__accounts.values():
+            yield _
 
     def addAccount(self, account: Account) -> Account:
-        pass
+        if account.iban in self.__accounts:
+            raise ValueError(f"Account {account.iban} already exists")
+        self.__accounts[account.iban] = account
+        return account
 
     def closeAccount(self, account: Account) -> Account:
-        pass
+        if account.iban not in self.__accounts:
+            raise ValueError(f"Account {account.iban} does not exist")
+        account.status = AccountStatus.CLOSED
+        del self.__accounts[account.iban]
+        return account
 
     def getTotalBalance(self) -> float:
-        pass
+        return sum(map(lambda account: account.balance, self.__accounts.values()))
 
     def getAccount(self, iban: str) -> Account:
-        pass
+        if iban not in self.__accounts:
+            raise ValueError(f"Account {iban} does not exist")
+        return self.__accounts[iban]
 
 
+jack = Customer("jack bauer", "1")
+jack.addAccount(Account("TR1", 100_000, AccountStatus.ACTIVE))
+jack.addAccount(CheckingAccount("TR2", 200_000, AccountStatus.ACTIVE, 10_000))
+jack.addAccount(SavingsAccount("TR3", 300_000, AccountStatus.ACTIVE))
+for account in jack.accounts:
+    print(account)
+print(jack.getTotalBalance())  # 600000
+jack.closeAccount(jack.getAccount("TR2"))
+for account in jack.accounts:
+    print(account)
+print(jack.getTotalBalance())  # 400000
 """
 Bank --> Customer
 commercial_name : str
