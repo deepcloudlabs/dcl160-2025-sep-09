@@ -205,22 +205,40 @@ class Bank:
     def __init__(self, bddk_id: str, commercial_name: str) -> None:
         self.__bddk_id = bddk_id
         self.__commercial_name = commercial_name
-        self.__accounts = {}
+        self.__customers = {}
 
-    def getCustomer(identity: str) -> Customer:
-        pass
+    @property
+    def bddk_id(self) -> str:
+        return self.__bddk_id
 
-    def addCustomer(customer: Customer) -> bool:
-        pass
+    @property
+    def commercial_name(self) -> str:
+        return self.__commercial_name
 
-    def releaseCustomer(customer) -> bool:
-        pass
+    @property
+    def customers(self) -> list[Customer]:
+        return list(self.__customers.values())
 
-    def getAccount(iban: str) -> Account:
-        pass
+    def getCustomer(self, identity: str) -> Customer:
+        return self.__customers[identity]
 
-    def getTotalBalance(sel) -> float:  # functional programming
-        pass
+    def addCustomer(self, customer: Customer) -> bool:
+        if customer.identity in self.__customers:
+            return False
+        self.__customers[customer.identity] = customer
+        return True
+
+    def releaseCustomer(self, identity: str) -> bool:
+        if identity not in self.__customers:
+            return False
+        del self.__customers[identity]
+        return True
+
+    def getAccount(self, iban: str) -> Account:
+        return self.__customers[iban]
+
+    def getTotalBalance(self) -> float:  # functional programming
+        return sum(map(lambda customer: customer.getTotalBalance(), self.customers))
 
 
 jack = Customer("jack bauer", "1")
@@ -233,3 +251,19 @@ print(jack.getTotalBalance())  # 600000
 jack.closeAccount(jack.getAccount("TR2"))
 jack.printAccounts()
 print(jack.getTotalBalance())  # 400000
+
+kate = Customer("kate austen", "2")
+kate.addAccount(Account("TR4", 400_000, AccountStatus.ACTIVE))
+kate.addAccount(CheckingAccount("TR5", 500_000, AccountStatus.ACTIVE, 10_000))
+kate.addAccount(SavingsAccount("TR6", 600_000, AccountStatus.ACTIVE))
+
+garanti = Bank("1", "Garanti")
+garanti.addCustomer(jack)
+garanti.addCustomer(kate)
+for customer in garanti.customers:
+    print(customer)
+print(garanti.getTotalBalance())
+garanti.releaseCustomer("1")
+for customer in garanti.customers:
+    print(customer)
+print(garanti.getTotalBalance())
