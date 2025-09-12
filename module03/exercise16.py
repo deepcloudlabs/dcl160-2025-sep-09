@@ -1,17 +1,26 @@
 import icu
+import unicodedata
 
-# Base collator (default locale)
-base = icu.Collator.createInstance(icu.Locale("de_DE"))
+# Normalize strings to NFC
+def normalize(text):
+    return unicodedata.normalize('NFC', text)
 
-# Custom collation rules: make "ü" equivalent to "ue"
-rules = "&U < ü = ue"  # "ü" = composed form of ü
+# List of names
+names = ["Müller", "Mueller", "Meier", "Müller-Lüdenscheidt"]
 
-# Create a rule-based collator
-rule_collator = icu.RuleBasedCollator(rules, base)
+names = [normalize(name) for name in names]
 
-words = ["Mueller", "Müller", "Muller"]
+# Base German collator
+base = icu.Collator.createInstance(icu.Locale('de_DE'))
+
+# Custom rule: treat 'ü' as 'ue'
+# Use quotes for literal special characters
+rules = "& 'ü' ; ue & 'Ü' ; Ue"
+
+# Create RuleBasedCollator with base rules
+rule_collator = icu.RuleBasedCollator(rules)
 
 # Sort using custom collator
-sorted_words = sorted(words, key=rule_collator.getSortKey)
-
-print(sorted_words)
+sorted_names = sorted(names, key=rule_collator.getSortKey)
+print(rule_collator.compare("mueller","müller"))
+print("Sorted names:", sorted_names)

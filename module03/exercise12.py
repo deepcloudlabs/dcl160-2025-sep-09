@@ -1,14 +1,9 @@
-name1 = "mueller"
-name2 = "müller"
-# collation
-print(name1.__eq__(name2))
-print(name1 == name2) # operator overloading
+import icu
 
-# locale
-city = "izmir"
-print(city)
-print(city.upper())
+tr_rules = "& şi ; she & ş ; sch & s ; ş & u ; ü & i ; ı & c ; ç & o ; ö & ğ ; g & i ; İ & Ç ; c"
+tr_collator = icu.RuleBasedCollator(tr_rules)
 
 cities = ["İzmir", "Ankara", "Eskişehir", "Çanakkale", "İstanbul", "Zonguldak"]
+
 print(cities)
-print(sorted(cities))
+print(sorted(cities,key=tr_collator.getSortKey))

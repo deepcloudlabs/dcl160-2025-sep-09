@@ -1,3 +1,1 @@
-pyicu-binary
-pkg-config
-icu-config
+pyicu
