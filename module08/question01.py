@@ -200,6 +200,29 @@ class Customer:
             print(_)
 
 
+# 15:30
+class Bank:
+    def __init__(self, bddk_id: str, commercial_name: str) -> None:
+        self.__bddk_id = bddk_id
+        self.__commercial_name = commercial_name
+        self.__accounts = {}
+
+    def getCustomer(identity: str) -> Customer:
+        pass
+
+    def addCustomer(customer: Customer) -> bool:
+        pass
+
+    def releaseCustomer(customer) -> bool:
+        pass
+
+    def getAccount(iban: str) -> Account:
+        pass
+
+    def getTotalBalance(sel) -> float:  # functional programming
+        pass
+
+
 jack = Customer("jack bauer", "1")
 jack.addAccount(Account("TR1", 100_000, AccountStatus.ACTIVE))
 jack.addAccount(CheckingAccount("TR2", 200_000, AccountStatus.ACTIVE, 10_000))
@@ -210,14 +233,3 @@ print(jack.getTotalBalance())  # 600000
 jack.closeAccount(jack.getAccount("TR2"))
 jack.printAccounts()
 print(jack.getTotalBalance())  # 400000
-"""
-Bank --> Customer
-commercial_name : str
-bddk_id : str
-customers : ?
-getCustomer(identity: str) -> Customer
-addCustomer(customer : Customer) -> bool
-releaseCustomer(customer) -> bool
-getAccount(iban: str) : Account
-getTotalBalance() -> float
-"""
