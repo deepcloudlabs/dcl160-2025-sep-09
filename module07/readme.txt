@@ -15,3 +15,6 @@ numbers = [4,8,15,16,23,42]
 4|8|1|5|1|6|2|3|4|2 -> read -> ?
 4|8|,|1|5|,|1|6|,|2|3|,|4|2 -> read -> [4,8,15,16,23,42]
 4B|4B|4B|....|4B
+
+protocol buffers
+protoc --python_out=. employee.proto

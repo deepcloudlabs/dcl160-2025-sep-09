@@ -1,4 +1,5 @@
 import pickle
+from io import BufferedWriter
 
 employees = [
     ("jack shephard", "Sales", 100000., 1978, True),
@@ -9,5 +10,6 @@ employees = [
     ("sun kwon", "IT", 170000., 1984, False),
     ("hugo reyes", "IT", 120000., 1992, True)
 ]
+
 with open("employees.pkl", mode="wb") as file:
     pickle.dump(employees, file)
