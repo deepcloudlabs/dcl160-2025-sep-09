@@ -11,10 +11,8 @@ employees = [
     ("hugo reyes", "IT", 120000, 1992, True)
 ]
 
-# Create Employees container
 employees_msg = employee_pb2.Employees()
 
-# Populate message
 for name, dept, salary, birth_year, full_time in employees:
     emp = employees_msg.employees.add()
     emp.name = name
@@ -23,6 +21,5 @@ for name, dept, salary, birth_year, full_time in employees:
     emp.birth_year = birth_year
     emp.full_time = full_time
 
-# Serialize to binary file
 with open("employees.bin", "wb") as f:
     f.write(employees_msg.SerializeToString())
