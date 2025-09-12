@@ -4,8 +4,8 @@ from functools import reduce
 
 
 def group_by_continent(groups: dict[str,int], vector: tuple[str,int]) -> dict[str,int]:
-    continent, population = vector
-    groups[continent] = groups.get(continent, 0) + population
+    a_continent, a_population = vector
+    groups[continent] = groups.get(a_continent, 0) + a_population
     return groups
 
 

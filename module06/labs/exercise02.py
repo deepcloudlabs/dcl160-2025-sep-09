@@ -3,9 +3,9 @@ import json
 from functools import reduce
 
 
-def distinct_continents(conts: set[str], continent: str) -> set[str]:
-    conts.add(continent)
-    return conts
+def distinct_continents(set_of_continents: set[str], continent: str) -> set[str]:
+    set_of_continents.add(continent)
+    return set_of_continents
 
 
 with open("../resources/countries.json", "rt", encoding="utf-8") as file:
