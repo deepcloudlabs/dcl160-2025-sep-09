@@ -137,6 +137,7 @@ class SavingsAccount(Account):
     def __str__(self) -> str:
         return f"SavingsAccount [iban: {self.iban}, balance:{self.balance}, status: {self.status}]"
 
+
 """
 Customer --> Account
 fullname : str
@@ -147,6 +148,38 @@ addAccount(account : Account) -> bool
 closeAccount(account) -> bool
 getTotalBalance() -> float
 """
+
+
+class Customer:
+    def __init__(self, full_name: str, identity: str, accounts: dict[str, Account]):
+        self.__full_name = full_name
+        self.__identity = identity
+        self.__accounts = {}
+
+    @property
+    def full_name(self) -> str:
+        return self.__full_name
+
+    @property
+    def identity(self) -> str:
+        return self.__identity
+
+    @property
+    def accounts(self) -> list[Account]:
+        return list(self.__accounts.values())
+
+    def addAccount(self, account: Account) -> Account:
+        pass
+
+    def closeAccount(self, account: Account) -> Account:
+        pass
+
+    def getTotalBalance(self) -> float:
+        pass
+
+    def getAccount(self, iban: str) -> Account:
+        pass
+
 
 """
 Bank --> Customer
