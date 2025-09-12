@@ -192,17 +192,23 @@ class Customer:
             raise ValueError(f"Account {iban} does not exist")
         return self.__accounts[iban]
 
+    def __str__(self) -> str:
+        return f"Customer[fullname: {self.full_name}, identity: {self.identity}]"
+
+    def printAccounts(self):
+        for _ in self.accounts:
+            print(_)
+
 
 jack = Customer("jack bauer", "1")
 jack.addAccount(Account("TR1", 100_000, AccountStatus.ACTIVE))
 jack.addAccount(CheckingAccount("TR2", 200_000, AccountStatus.ACTIVE, 10_000))
 jack.addAccount(SavingsAccount("TR3", 300_000, AccountStatus.ACTIVE))
-for account in jack.accounts:
-    print(account)
+print(jack)
+jack.printAccounts()
 print(jack.getTotalBalance())  # 600000
 jack.closeAccount(jack.getAccount("TR2"))
-for account in jack.accounts:
-    print(account)
+jack.printAccounts()
 print(jack.getTotalBalance())  # 400000
 """
 Bank --> Customer
